@@ -8,9 +8,9 @@ const hbs = require('hbs');
 const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
-// const session = require('express-session');
-// const MongoStore = require('connect-mongo')(session);
-// const flash = require('connect-flash');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const flash = require('connect-flash');
 
 mongoose
   .connect('mongodb://localhost/todo', { useNewUrlParser: true })
@@ -56,8 +56,5 @@ app.locals.title = 'Express - Generated with IronGenerator';
 
 const index = require('./routes/index');
 app.use('/', index);
-
-const todo = require('./routes/todo');
-app.use('/todo', todo);
 
 module.exports = app;
