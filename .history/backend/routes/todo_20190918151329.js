@@ -27,8 +27,9 @@ router.post('/create', (req, res, next) => {
 /* POST delete todo item */
 router.post('/delete/:id', (req, res, next) => {
   const id = req.params.id;
-  Todo.findByIdAndRemove(id)
+  Todo.findById(id)
     .then(ToDelete => {
+      Todo.delete(ToDelete);
       console.log('To-do item deleted');
       return res.send('BALEETED');
     })
