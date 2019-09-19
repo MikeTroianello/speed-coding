@@ -51,6 +51,7 @@ router.get('/view-post/:id', (req, res, next) => {
 });
 
 //GET edit individual to-do item
+
 router.get('/view-post/:id/edit', (req, res, next) => {
   Todo.findById(req.params.id)
     .then(item => {
@@ -59,15 +60,6 @@ router.get('/view-post/:id/edit', (req, res, next) => {
     .catch(err => {
       next(err);
     });
-});
-
-//POST edit individual to-do item
-router.post('/view-post/:id/edit', (req, res, next) => {
-  Todo.findByIdAndUpdate(req.params.id).then(updatedItem => {
-    console.log('SUCCESS');
-    updatedItem.save();
-    res.send(updatedItem);
-  });
 });
 
 module.exports = router;
