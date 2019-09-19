@@ -60,7 +60,4 @@ app.use('/', index);
 const todo = require('./routes/todo');
 app.use('/todo', todo);
 
-const user = require('./routes/user');
-app.use('/user', user);
-
 module.exports = app;

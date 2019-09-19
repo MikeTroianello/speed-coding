@@ -22,10 +22,6 @@ const todoSchema = new Schema({
     type: Boolean,
     default: false
   },
-  creator: {
-    type: Schema.Types.ObjectId,
-    ref: 'User'
-  },
   time: { type: Date, default: Date.now }
 });
 
