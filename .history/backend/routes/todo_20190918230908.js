@@ -7,8 +7,8 @@ const Todo = require('../models/Todo');
 router.get('/all', (req, res, next) => {
   console.log('HERE');
   Todo.find().then(items => {
-    // res.send({ items });
-    res.render('../views/todo/all.hbs', { items });
+    res.send({ items });
+    res.render('../views/todo/all.hbs', items);
   });
 });
 

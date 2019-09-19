@@ -1,0 +1,28 @@
+<h1>All Items:</h1>
+
+{{#each items}}
+
+<p>Title</p>
+{{this.title}}
+{{#if this.description}}
+<p>Description</p>
+{{this.description}}
+{{/if}}
+<p>Importance:</p>
+{{this.importance}}
+
+{{#if this.progress}}
+<i>Currently in progress</i>
+{{#else}}
+<i>Not started yet</i>
+{{/else}}
+{{/if}}
+
+{{#if this.complete}}
+<b>Task Complete!</b>
+{{#else}}
+<b>Not Complete</b>
+{{/else}}
+{{/if}}
+
+{{/each}}
