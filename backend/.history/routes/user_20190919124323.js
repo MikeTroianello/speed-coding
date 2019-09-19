@@ -19,7 +19,7 @@ const bcryptSalt = 10;
 
 //POST create user
 router.post('/create', (req, res, next) => {
-  const username = req.body.username.toLowerCase();
+  const username = req.body.username;
   const password = req.body.password;
 
   console.log(req.body);
@@ -31,19 +31,18 @@ router.post('/create', (req, res, next) => {
 
   const user = { username, password };
 
-  User.findOne(user)
+  User.findOne(username)
     .then(foundUser => {
       if (foundUser) {
         res.send('Username already exists!');
-      } else {
-        User.create(user)
-          .then(createdUser => {
-            res.send('User Created!');
-          })
-          .catch(err => {
-            next(err);
-          });
       }
+      User.create(user)
+        .then(createdUser => {
+          res.send('User Created!');
+        })
+        .catch(err => {
+          next(err);
+        });
     })
     .catch(err => {
       next(err);

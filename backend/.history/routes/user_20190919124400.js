@@ -31,19 +31,18 @@ router.post('/create', (req, res, next) => {
 
   const user = { username, password };
 
-  User.findOne(user)
+  User.findOne(username)
     .then(foundUser => {
       if (foundUser) {
         res.send('Username already exists!');
-      } else {
-        User.create(user)
-          .then(createdUser => {
-            res.send('User Created!');
-          })
-          .catch(err => {
-            next(err);
-          });
       }
+      User.create(user)
+        .then(createdUser => {
+          res.send('User Created!');
+        })
+        .catch(err => {
+          next(err);
+        });
     })
     .catch(err => {
       next(err);
