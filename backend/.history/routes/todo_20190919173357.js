@@ -64,8 +64,8 @@ router.get('/view-post/:id/edit', (req, res, next) => {
 //POST edit individual to-do item
 router.post('/view-post/:id/edit', (req, res, next) => {
   Todo.findByIdAndUpdate(req.params.id, req.body).then(updatedItem => {
-    console.log(updatedItem);
-    // updatedItem.save();
+    console.log('SUCCESS');
+    updatedItem.save();
     res.send(updatedItem);
   });
 });
