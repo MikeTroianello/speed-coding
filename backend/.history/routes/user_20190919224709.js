@@ -8,11 +8,6 @@ const bcryptSalt = 10;
 
 const ensureLogin = require('connect-ensure-login');
 
-//GET Create User
-router.get('/signup', (req, res, next) => {
-  res.render('user/signup');
-});
-
 //POST create user
 router.post('/create', (req, res, next) => {
   const username = req.body.username.toLowerCase();
@@ -60,6 +55,12 @@ router.post('/create', (req, res, next) => {
     });
 });
 
+//Get Login page
+router.get('/login', (req, res, next) => {
+  res.send('nope...');
+  // res.render('user/login');
+});
+
 //POST Log in User
 router.post(
   '/login',
@@ -73,12 +74,9 @@ router.post(
 
 router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
   console.log('WE DONE DID IT');
-  res.render('user/private-page', { user: req.user });
-});
-
-router.get('/logout', (req, res) => {
-  req.logout();
-  res.redirect('/login');
+  // res.send({ user: req.user });
+  res.send(':)');
+  // res.render('user/private', { user: req.user });
 });
 
 module.exports = router;

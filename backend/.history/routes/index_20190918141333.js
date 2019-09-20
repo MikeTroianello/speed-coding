@@ -11,10 +11,4 @@ router.get('/todo', (req, res, next) => {
   res.render('index');
 });
 
-//Get Login page
-router.get('/login', (req, res, next) => {
-  // res.send('nope...');
-  res.render('user/login', { message: req.flash('error') });
-});
-
 module.exports = router;

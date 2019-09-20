@@ -69,27 +69,24 @@ passport.deserializeUser((id, cb) => {
 app.use(flash());
 
 passport.use(
-  new LocalStrategy(
-    { passReqToCallback: true },
-    (req, username, password, next) => {
-      User.findOne({ username }, (err, user) => {
-        if (err) {
-          console.log('ERROR');
-          return next(err);
-        }
-        if (!user) {
-          console.log('USERNAME');
-          return next(null, false, { message: 'Incorrect username' });
-        }
-        if (!bcrypt.compareSync(password, user.password)) {
-          console.log('PASSWORD');
-          return next(null, false, { message: 'Incorrect password' });
-        }
-        console.log('WE MADE IT HERE');
-        return next(null, user);
-      });
-    }
-  )
+  new LocalStrategy({ passReqToCallback: true }, (username, password, next) => {
+    User.findOne({ username }, (err, user) => {
+      if (err) {
+        console.log('ERROR');
+        return next(err);
+      }
+      if (!user) {
+        console.log('USERNAME');
+        return next(null, false, { message: 'Incorrect username' });
+      }
+      if (!bcrypt.compareSync(password, user.password)) {
+        console.log('PASSWORD');
+        return next(null, false, { message: 'Incorrect password' });
+      }
+      console.log('WE MADE IT HERE');
+      return next(null, user);
+    });
+  })
 );
 
 app.use(passport.initialize());

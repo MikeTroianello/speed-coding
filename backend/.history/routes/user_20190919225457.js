@@ -60,6 +60,12 @@ router.post('/create', (req, res, next) => {
     });
 });
 
+//Get Login page
+router.get('/login', (req, res, next) => {
+  // res.send('nope...');
+  res.render('user/login', { message: req.flash('error') });
+});
+
 //POST Log in User
 router.post(
   '/login',
@@ -73,10 +79,12 @@ router.post(
 
 router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
   console.log('WE DONE DID IT');
-  res.render('user/private-page', { user: req.user });
+  // res.send({ user: req.user });
+  res.send(':)');
+  // res.render('user/private', { user: req.user });
 });
 
-router.get('/logout', (req, res) => {
+authRoutes.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/login');
 });
