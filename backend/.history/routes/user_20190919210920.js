@@ -20,28 +20,14 @@ router.post('/create', (req, res, next) => {
     // res.redirect('/')
   }
 
-  const salt = bcrypt.genSaltSync(bcryptSalt);
-  const hashPass = bcrypt.hashSync(password, salt);
+  const user = { username, password };
 
-  const newUser = new User({
-    username,
-    password: hashPass
-  });
-
-  // newUser.save((err) => {
-  //   if (err) {
-  //     res.render("auth/signup", { message: "Something went wrong" });
-  //   } else {
-  //     res.redirect("/");
-  //   }
-  // });
-
-  User.findOne(newUser)
+  User.findOne(user)
     .then(foundUser => {
       if (foundUser) {
         res.send('Username already exists!');
       } else {
-        User.create(newUser)
+        User.create(user)
           .then(createdUser => {
             res.send('User Created!');
           })
@@ -55,28 +41,19 @@ router.post('/create', (req, res, next) => {
     });
 });
 
-//Get Login page
-router.get('/login', (req, res, next) => {
-  res.send('nope...');
-  // res.render('user/login');
+//POST Login User
+authRoutes.get('/login', (req, res, next) => {
+  res.render('auth/login');
 });
 
-//POST Log in User
-router.post(
+authRoutes.post(
   '/login',
   passport.authenticate('local', {
-    successRedirect: '/user/private-page',
-    failureRedirect: '/user/login',
-    // failureFlash: true,
+    successRedirect: '/',
+    failureRedirect: '/login',
+    failureFlash: true,
     passReqToCallback: true
   })
 );
-
-router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
-  console.log('WE DONE DID IT');
-  // res.send({ user: req.user });
-  res.send(':)');
-  // res.render('user/private', { user: req.user });
-});
 
 module.exports = router;

@@ -71,18 +71,15 @@ passport.use(
     console.log(username, password);
     User.findOne({ username }, (err, user) => {
       if (err) {
-        console.log('ERROR');
         return next(err);
       }
       if (!user) {
-        console.log('USERNAME');
         return next(null, false, { message: 'Incorrect username' });
       }
       if (!bcrypt.compareSync(password, user.password)) {
-        console.log('PASSWORD');
         return next(null, false, { message: 'Incorrect password' });
       }
-      console.log('WE MADE IT HERE');
+
       return next(null, user);
     });
   })

@@ -73,10 +73,9 @@ router.post(
 );
 
 router.get('/private-page', ensureLogin.ensureLoggedIn(), (req, res) => {
-  console.log('WE DONE DID IT');
-  // res.send({ user: req.user });
-  res.send(':)');
-  // res.render('user/private', { user: req.user });
+  console.log('ALMOST THERE');
+  res.send({ user: req.user });
+  res.render('user/private', { user: req.user });
 });
 
 module.exports = router;

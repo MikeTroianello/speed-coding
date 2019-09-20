@@ -12,8 +12,8 @@ const session = require('express-session');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-// const flash = require('connect-flash');
 // const MongoStore = require('connect-mongo')(session);
+// const flash = require('connect-flash');
 
 const User = require('./models/User');
 
@@ -68,21 +68,17 @@ passport.deserializeUser((id, cb) => {
 
 passport.use(
   new LocalStrategy((username, password, next) => {
-    console.log(username, password);
     User.findOne({ username }, (err, user) => {
       if (err) {
-        console.log('ERROR');
         return next(err);
       }
       if (!user) {
-        console.log('USERNAME');
         return next(null, false, { message: 'Incorrect username' });
       }
       if (!bcrypt.compareSync(password, user.password)) {
-        console.log('PASSWORD');
         return next(null, false, { message: 'Incorrect password' });
       }
-      console.log('WE MADE IT HERE');
+
       return next(null, user);
     });
   })
