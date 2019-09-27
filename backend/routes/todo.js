@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const Todo = require('../models/Todo');
 
+const ensureLogin = require('connect-ensure-login');
+
 // GET see all todo items
 
 router.get('/all', (req, res, next) => {
@@ -12,17 +14,49 @@ router.get('/all', (req, res, next) => {
   });
 });
 
+//GET see personal todo items NOT YET TESTED
+
+router.get('/personal', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  console.log('HERE');
+  Todo.find(req.user._id).then(items => {
+    res.send({ items });
+    // res.render('../views/todo/all.hbs', { items });
+  });
+});
+
+/* POST create todo item BACKUP IN CASE THE NEW ONE FAILS*/
+// router.post('/create', (req, res, next) => {
+//   const todo = req.body;
+//   Todo.create(todo)
+//     .then(created => {
+//       console.log('To-do item created!');
+//       return res.send({ created });
+//     })
+//     .catch(err => {
+//       next(err);
+//     });
+// });
+
 /* POST create todo item */
-router.post('/create', (req, res, next) => {
-  const todo = req.body;
-  Todo.create(todo)
-    .then(created => {
-      console.log('To-do item created!');
-      return res.send({ created });
-    })
-    .catch(err => {
-      next(err);
-    });
+router.post('/create', ensureLogin.ensureLoggedIn(), (req, res, next) => {
+  if (!req.user) {
+    res.render('/');
+  } else {
+    const todo = {
+      title: req.body.title,
+      description: req.body.description,
+      importance: req.body.importance,
+      creator: req.user._id
+    };
+    Todo.create(todo)
+      .then(created => {
+        console.log('To-do item created!');
+        return res.send({ created });
+      })
+      .catch(err => {
+        next(err);
+      });
+  }
 });
 
 /* POST delete todo item */
